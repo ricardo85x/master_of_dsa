@@ -4,7 +4,6 @@
 # that is missing from the array.
 
 def missing_numbers(nums: list[int]) -> list[int]:
-    result = []
     num_set = set(nums)
 
     if 0 not in num_set:
