@@ -31,18 +31,33 @@
 def all_path_source_target(graph: list[list[int]]) -> list[list[int]]:
     
     target = len(graph) - 1
-    results = []
-    def backtrack(curr_node, path):
-        if curr_node == target:
-            results.append(list(path))
+    result = []
+    
+    def backtrack(curr: int, paths: list[int]):
+        if curr == target:
+            result.append(paths[:])
             return
-        for next_node in graph[curr_node]:
-            path.append(next_node)
-            backtrack(next_node, path)
-            path.pop()
+        for new_node in graph[curr]:
+            paths.append(new_node)
+            backtrack(new_node, paths)
+            paths.pop()
         
-    path = [0]
-    backtrack(0, path)
-    return results
+    backtrack(0, [0])
+    return result
 
-print(all_path_source_target([[1,2],[3],[3],[]]))
+import unittest
+
+class TestDSA(unittest.TestCase):
+    
+    def test_example_1(self):
+        graph = [[1,2],[3],[3],[]]
+        expected_output = [[0,1,3],[0,2,3]]
+        self.assertEqual(all_path_source_target(graph), expected_output)
+        
+    def test_example_2(self):
+        graph = [[4,3,1],[3,2,4],[3],[4],[]]
+        expected_output = [[0,4],[0,3,4],[0,1,3,4],[0,1,2,3,4],[0,1,4]]
+        self.assertEqual(all_path_source_target(graph), expected_output)
+ 
+if __name__ == "__main__":
+    unittest.main()
